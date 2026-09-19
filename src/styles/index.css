@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Default Theme - Optimized Blue Palette */
+
+        /* --- Primary Branding (Bleu Sécurité #0057FF) --- */
+        --primary: 220 100% 50%;
+        --primary-foreground: 0 0% 100%;
+        --primary-hover: 220 79% 43%;
+        --primary-active: 220 79% 38%;
+        --primary-light: 220 100% 96%;
+        --primary-dark: 220 100% 14%;
+
+        /* --- Surfaces --- */
+        --background: 0 0% 100%;
+        --foreground: 220 25% 20%;
+        --surface: 220 80% 98%;
+        --surface-foreground: 220 25% 20%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 220 25% 20%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 220 25% 20%;
+
+        /* --- Secondary --- */
+        --secondary: 220 100% 13%;
+        --secondary-foreground: 0 0% 100%;
+
+        /* --- Functional (All Blue-based) --- */
+        --accent: 210 100% 56%;
+        --accent-foreground: 0 0% 100%;
+
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+
+        --success: 200 100% 45%;
+        --success-foreground: 0 0% 100%;
+
+        --warning: 38 92% 50%;
+        --warning-foreground: 0 0% 100%;
+
+        --info: 220 100% 60%;
+        --info-foreground: 0 0% 100%;
+
+        /* --- Muted & Borders --- */
+        --muted: 220 20% 92%;
+        --muted-foreground: 220 15% 40%;
+
+        --border: 220 30% 85%;
+        --input: 220 30% 85%;
+        --ring: 220 100% 50%;
+
+        --radius: 1.25rem;
+    }
+
+    [data-theme="dark"] {
+        --background: 220 40% 10%;
+        --foreground: 0 0% 100%;
+
+        --surface: 220 35% 12%;
+        --surface-foreground: 0 0% 100%;
+
+        --card: 220 35% 12%;
+        --card-foreground: 0 0% 100%;
+
+        --popover: 220 35% 12%;
+        --popover-foreground: 0 0% 100%;
+
+        --primary: 220 100% 65%;
+        --primary-foreground: 0 0% 100%;
+        --primary-hover: 220 90% 58%;
+        --primary-active: 220 90% 52%;
+        --primary-light: 220 45% 20%;
+        --primary-dark: 220 100% 10%;
+
+        --secondary: 220 50% 25%;
+        --secondary-foreground: 0 0% 100%;
+
+        --accent: 210 100% 60%;
+        --accent-foreground: 0 0% 100%;
+
+        --destructive: 0 84% 65%;
+        --destructive-foreground: 0 0% 100%;
+
+        --success: 200 100% 50%;
+        --success-foreground: 0 0% 100%;
+
+        --warning: 38 92% 55%;
+        --warning-foreground: 0 0% 100%;
+
+        --info: 220 100% 70%;
+        --info-foreground: 0 0% 100%;
+
+        --muted: 220 15% 18%;
+        --muted-foreground: 220 20% 75%;
+
+        --border: 220 20% 25%;
+        --input: 220 20% 25%;
+        --ring: 220 100% 65%;
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+
+    /* Smooth transitions */
+    * {
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+}
