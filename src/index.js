@@ -12,8 +12,9 @@ export * from './components/radio-group-field.jsx';
 export * from './components/multi-select.jsx';
 export * from './components/autocomplete-input.jsx';
 
-// Layout Components
+// Layout & Auth Components
 export * from './components/card.jsx';
+export * from './components/LoginCard.jsx';
 export * from './components/separator.jsx';
 export * from './components/tabs.jsx';
 
