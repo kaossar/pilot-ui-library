@@ -27,7 +27,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import Input from './input';
+import { Input } from './input';
 
 /**
  * Fiche de connexion officielle PILOT partagée entre Web et Mobile.
