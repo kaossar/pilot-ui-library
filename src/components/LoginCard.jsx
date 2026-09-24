@@ -47,6 +47,8 @@ import { Input } from './input';
  * @param {'FR' | 'EN'} [props.language='FR'] - Langue active
  * @param {Function} [props.onLanguageChange] - Callback changement de langue
  * @param {string} [props.title="Connexion à PILOT OS"] - Titre principal
+ * @param {string} [props.registerLabel="Créer votre agence PILOT"] - Texte du lien d'inscription
+ * @param {string} [props.title="Connexion sécurisée"] - Titre principal
  * @param {string} [props.subtitle="Accédez à votre centre de pilotage"] - Sous-titre
  * @param {string} [props.className=""] - Classes CSS additionnelles
  */
@@ -58,13 +60,14 @@ export const LoginCard = ({
   onSubmit,
   onForgotPassword,
   onRegister,
+  registerLabel = 'Créer votre agence PILOT',
   loading = false,
   error = '',
   isInCooldown = false,
   cooldownRemaining = 0,
   language = 'FR',
   onLanguageChange,
-  title = 'Connexion à PILOT OS',
+  title = 'Connexion sécurisée',
   subtitle = 'Accédez à votre centre de pilotage',
   className = '',
 }) => {
@@ -139,6 +142,7 @@ export const LoginCard = ({
           autoComplete="email"
           disabled={loading || isInCooldown}
           placeholder=""
+          className="bg-[#EEF2F9] border-[#DADCD7] focus:bg-white focus:border-[#4B5320]"
         />
 
         {/* Champ Mot de passe avec toggle affichage */}
@@ -152,6 +156,7 @@ export const LoginCard = ({
             autoComplete="current-password"
             disabled={loading || isInCooldown}
             placeholder=""
+            className="bg-[#EEF2F9] border-[#DADCD7] focus:bg-white focus:border-[#4B5320]"
             suffix={
               <button
                 type="button"
@@ -258,7 +263,7 @@ export const LoginCard = ({
           className="font-bold hover:underline focus:outline-none"
           style={{ color: '#4B5320' }}
         >
-          S'inscrire
+          {registerLabel}
         </button>
       </div>
     </div>
