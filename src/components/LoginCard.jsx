@@ -47,6 +47,13 @@ import { Input } from './input';
  * @param {'FR' | 'EN'} [props.language='FR'] - Langue active
  * @param {Function} [props.onLanguageChange] - Callback changement de langue
  * @param {string} [props.title="Connexion à PILOT OS"] - Titre principal
+ * @param {string} [props.sessionMessage=""] - Message d'information (ex: session expirée)
+ * @param {string} [props.emailLabel="Email professionnel"] - Libellé champ email
+ * @param {string} [props.passwordLabel="Mot de passe"] - Libellé champ mot de passe
+ * @param {string} [props.forgotPasswordLabel="Mot de passe oublié ?"] - Libellé mot de passe oublié
+ * @param {string} [props.submitLabel="Se connecter"] - Libellé bouton de connexion
+ * @param {string} [props.verifyingLabel="Vérification en cours..."] - Libellé état de chargement
+ * @param {string} [props.registerPrefix="Pas encore de compte ?"] - Préfixe pied de page
  * @param {string} [props.registerLabel="Créer votre agence PILOT"] - Texte du lien d'inscription
  * @param {string} [props.title="Connexion sécurisée"] - Titre principal
  * @param {string} [props.subtitle="Accédez à votre centre de pilotage"] - Sous-titre
@@ -61,6 +68,13 @@ export const LoginCard = ({
   onForgotPassword,
   onRegister,
   registerLabel = 'Créer votre agence PILOT',
+  registerPrefix = 'Pas encore de compte ?',
+  emailLabel = 'Email professionnel',
+  passwordLabel = 'Mot de passe',
+  forgotPasswordLabel = 'Mot de passe oublié ?',
+  submitLabel = 'Se connecter',
+  verifyingLabel = 'Vérification en cours...',
+  sessionMessage = '',
   loading = false,
   error = '',
   isInCooldown = false,
@@ -130,11 +144,27 @@ export const LoginCard = ({
         </p>
       </div>
 
+      {/* Notification de session ou information */}
+      {sessionMessage && (
+        <div
+          className="flex items-start gap-2.5 p-3 rounded-md border text-xs mb-4"
+          style={{
+            backgroundColor: '#FFFBEB',
+            borderColor: '#FDE68A',
+            color: '#D97706',
+          }}
+          role="status"
+        >
+          <LockKeyhole size={16} className="shrink-0 mt-0.5" />
+          <p className="font-medium">{sessionMessage}</p>
+        </div>
+      )}
+
       {/* Formulaire de saisie */}
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
         {/* Champ Email professionnel */}
         <Input
-          label="Email professionnel"
+          label={emailLabel}
           type="email"
           value={email}
           onChange={(e) => onEmailChange(e.target.value)}
@@ -148,7 +178,7 @@ export const LoginCard = ({
         {/* Champ Mot de passe avec toggle affichage */}
         <div className="space-y-1">
           <Input
-            label="Mot de passe"
+            label={passwordLabel}
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
@@ -178,7 +208,7 @@ export const LoginCard = ({
                 onClick={onForgotPassword}
                 className="text-xs font-semibold text-[#63665F] hover:text-[#4B5320] transition-colors focus:outline-none"
               >
-                Mot de passe oublié ?
+                {forgotPasswordLabel}
               </button>
             </div>
           )}
@@ -231,7 +261,7 @@ export const LoginCard = ({
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 size={18} className="animate-spin" />
-              Vérification en cours...
+              {verifyingLabel}
             </span>
           ) : isInCooldown ? (
             <span className="flex items-center gap-2">
@@ -240,7 +270,7 @@ export const LoginCard = ({
             </span>
           ) : (
             <>
-              <span>Se connecter</span>
+              <span>{submitLabel}</span>
               <ChevronRight size={17} strokeWidth={2.5} />
             </>
           )}
@@ -249,7 +279,7 @@ export const LoginCard = ({
 
       {/* Pied de formulaire — Identique au Web : Pas encore de compte ? S'inscrire */}
       <div className="flex items-center justify-center gap-1.5 mt-6 pt-5 border-t border-[#DADCD7] text-xs">
-        <span className="text-[#63665F]">Pas encore de compte ?</span>
+        <span className="text-[#63665F]">{registerPrefix}</span>
         <button
           type="button"
           onClick={

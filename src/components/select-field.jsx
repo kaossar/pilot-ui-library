@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { Select, SelectTrigger, SelectValue, SelectContent } from "./select";
 import { cn } from "../lib/utils.js";
 
@@ -26,9 +26,11 @@ const SelectField = React.forwardRef(
         const selectId = React.useId();
         const [isOpen, setIsOpen] = React.useState(false);
         const hasValue = value !== undefined && value !== null && value !== "";
+        const isLabelFloating = isOpen || hasValue || Boolean(placeholder);
 
-        const isLabelFloating = isOpen || hasValue || (placeholder && placeholder.trim() !== "");
-        const safeValue = value === "" ? undefined : value;
+        // Radix Select interdit explicitement value="" car aucun SelectItem ne peut avoir value="".
+        // Si value est vide, null ou undefined, on doit passer undefined pour laisser Radix afficher le placeholder sans crasher.
+        const safeValue = (value !== undefined && value !== null && value !== "") ? String(value) : undefined;
 
         return (
             <div className="w-full">

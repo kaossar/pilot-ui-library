@@ -58,3 +58,6 @@ export * from './components/date-range-picker.jsx';
 // Utilities
 export { cn } from './lib/utils.js';
 export * from './components/date-picker.jsx';
+
+// KPI Components
+export * from './components/kpi/index.js';
