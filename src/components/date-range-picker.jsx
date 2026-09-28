@@ -6,6 +6,15 @@ import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+/** Correspondance mode → libellé court affiché dans le badge */
+const MODE_LABELS = {
+    day:    'Jour',
+    week:   'Sem.',
+    '14d':  '14 J.',
+    month:  'Mois',
+    custom: 'Perso.',
+};
+
 export function DateRangePicker({
     mode = 'week',
     onModeChange,
@@ -62,7 +71,7 @@ export function DateRangePicker({
                     </div>
                     {onModeChange && (
                         <span className="text-xs text-muted-foreground font-normal bg-muted px-1.5 py-0.5 rounded">
-                            {mode === 'month' ? 'Mois' : 'Personnalisé'}
+                            {MODE_LABELS[mode] ?? mode}
                         </span>
                     )}
                 </button>
