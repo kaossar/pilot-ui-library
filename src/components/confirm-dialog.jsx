@@ -27,9 +27,14 @@ const ConfirmDialog = React.forwardRef(({
         onOpenChange?.(false);
     };
 
+    // Accessibilité : sans description, on l'indique explicitement à Radix
+    // (aria-describedby={undefined}) pour éviter le warning console.
+    // Avec description, Radix relie automatiquement DialogDescription.
+    const a11yProps = description ? {} : { "aria-describedby": undefined };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent ref={ref} className={cn("sm:max-w-[425px]", className)} {...props}>
+            <DialogContent ref={ref} className={cn("sm:max-w-[425px]", className)} {...a11yProps} {...props}>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     {description && (
