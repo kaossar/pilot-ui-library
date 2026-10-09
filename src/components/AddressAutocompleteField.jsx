@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { MapPin, Loader } from 'lucide-react';
 import { Input } from './input';
 import { Card } from './card';

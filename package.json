@@ -12,7 +12,8 @@
     },
     "scripts": {
         "dev": "echo 'This is a component library. Import it in your project.'",
-        "build": "echo 'Build script to be added when publishing to npm'"
+        "build": "echo 'Build script to be added when publishing to npm'",
+        "prepare": "git config core.hooksPath .husky || true"
     },
     "keywords": [
         "react",

@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+# ==============================================================================
+# PILOT OS — Pre-commit Hook (PILOT UI Library (@shared/ui))
+# ==============================================================================
+set -e
+
+RESET='\033[0m'
+BOLD='\033[1m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+
+echo ""
+printf "${CYAN}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}\n"
+printf "${CYAN}${BOLD}  PILOT OS — Contrôles Pre-Commit (PILOT UI Library (@shared/ui))${RESET}\n"
+printf "${CYAN}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}\n"
+echo ""
+
+# Détermination dynamique et absolue de la racine PILOT et du dépôt
+HOOK_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_DIR="$(cd "$HOOK_DIR/.." && pwd)"
+WORKSPACE_ROOT="$(cd "$REPO_DIR/.." && pwd)"
+AUDIT_SCRIPT="$WORKSPACE_ROOT/scripts/audit-clean-architecture.mjs"
+
+# Basculer systématiquement dans le répertoire du projet pour les commandes locales
+cd "$REPO_DIR"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. Garde-fou Architectural Global & Conformité Linguistique (Strict)
+# ─────────────────────────────────────────────────────────────────────────────
+printf "${YELLOW}  [Garde-Fou] Audit Clean Architecture & Commentaires en Français (10+ ans)...${RESET}\n"
+if ! node "$AUDIT_SCRIPT" --strict; then
+  printf "\n${RED}${BOLD}  ❌ COMMIT BLOQUÉ — Violation des règles de Clean Architecture ou de langue.${RESET}\n"
+  printf "${RED}  Corrigez impérativement les violations ci-dessus avant de valider votre commit.${RESET}\n\n"
+  exit 1
+fi
+printf "${GREEN}  ✅ Clean Architecture & langue française validées avec succès.${RESET}\n\n"
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|jsx)$' || true)
+if [ -n "$STAGED" ]; then
+  printf "${YELLOW}  [Pureté Présentation] Vérification de l'absence de réseau (axios/fetch)...${RESET}\n"
+  FORBIDDEN=$(git diff --cached -S"axios" -S"@supabase" --name-only | grep -E '\.(js|jsx)$' || true)
+  if [ -n "$FORBIDDEN" ]; then
+    printf "${RED}${BOLD}  ❌ COMMIT BLOQUÉ — Import réseau détecté dans @shared/ui : $FORBIDDEN${RESET}\n"
+    exit 1
+  fi
+  printf "${GREEN}  ✅ Composants 100%% présentationnels purs.${RESET}\n\n"
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Validation transversale optionnelle si PILOT_VERIFY_ALL=1
+# ─────────────────────────────────────────────────────────────────────────────
+if [ "$PILOT_VERIFY_ALL" = "1" ]; then
+  VERIFY_SCRIPT="$WORKSPACE_ROOT/scripts/verify-all.mjs"
+  printf "${CYAN}${BOLD}🌐 PILOT_VERIFY_ALL=1 — Exécution de la suite transversale multi-dépôts...${RESET}\n"
+  if ! node "$VERIFY_SCRIPT"; then
+    printf "${RED}${BOLD}  ❌ COMMIT BLOQUÉ — Échec de la suite transversale multi-dépôts.${RESET}\n"
+    exit 1
+  fi
+fi
+
+printf "${GREEN}${BOLD}  ✅ Toutes les vérifications passent — Commit autorisé !${RESET}\n\n"

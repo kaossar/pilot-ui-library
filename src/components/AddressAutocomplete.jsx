@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import { MapPin, Loader } from 'lucide-react';
 import { Input, Card } from '../index.js';
 
