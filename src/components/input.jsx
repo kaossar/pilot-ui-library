@@ -90,6 +90,14 @@ const Input = React.forwardRef(
             );
         }
 
+        // Règle d'or ergonomique PILOT OS (Garde-fou UI 10+ ans) :
+        // Un label flottant ne doit jamais excéder 35 caractères pour prévenir toute collision ou troncature.
+        if (process.env.NODE_ENV !== 'production' && typeof label === 'string' && label.length > 35) {
+            console.warn(
+                `[PILOT-UI] Warning: Le label flottant "${label}" (${label.length} car.) dépasse la limite maximale recommandée de 35 caractères. Utilisez un libellé concis et déportez les précisions dans la prop 'helperText'.`
+            );
+        }
+
         // Modern input with integrated floating label
         const forceFloatingTypes = ['date', 'datetime-local', 'month', 'time', 'week'];
         const isLabelFloating = isFocused || hasValue || Boolean(props.placeholder) || forceFloatingTypes.includes(type);
