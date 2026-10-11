@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { cn } from "../lib/utils.js";
 
 /**
@@ -95,8 +95,9 @@ const Textarea = React.forwardRef(
                     {/* Floating Label */}
                     <label
                         htmlFor={textareaId}
+                        title={typeof label === 'string' ? label : undefined}
                         className={cn(
-                            "absolute left-3 transition-all duration-200 pointer-events-none text-muted-foreground",
+                            "absolute left-3 right-3 transition-all duration-200 pointer-events-none text-muted-foreground truncate select-none",
                             isLabelFloating
                                 ? "top-2 text-xs font-medium"
                                 : "top-4 text-sm"

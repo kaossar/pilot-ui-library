@@ -26,15 +26,16 @@ const Input = React.forwardRef(
     ({ className, type = "text", error, prefix, suffix, label, helperText, required, ...props }, ref) => {
         const inputId = React.useId();
         const [isFocused, setIsFocused] = React.useState(false);
-        const [hasValue, setHasValue] = React.useState(false);
-
+        const [hasValue, setHasValue] = React.useState(Boolean(props.value || props.defaultValue));
 
         const inputRef = React.useRef(null);
 
-        // Détecte si la valeur est renseignée (controlled)
+        // Détecte si la valeur est renseignée (controlled ou defaultValue)
         React.useEffect(() => {
             if (props.value !== undefined) {
-                setHasValue(!!props.value);
+                setHasValue(Boolean(props.value));
+            } else if (inputRef.current) {
+                setHasValue(Boolean(inputRef.current.value));
             }
         }, [props.value]);
 
@@ -53,7 +54,7 @@ const Input = React.forwardRef(
         };
 
         const handleChange = (e) => {
-            setHasValue(!!e.target.value);
+            setHasValue(Boolean(e.target.value));
             if (props.onChange) {
                 props.onChange(e);
             }
@@ -64,7 +65,7 @@ const Input = React.forwardRef(
             return (
                 <div className="relative w-full">
                     {prefix && (
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10 pointer-events-none">
                             {prefix}
                         </div>
                     )}
@@ -91,13 +92,13 @@ const Input = React.forwardRef(
 
         // Modern input with integrated floating label
         const forceFloatingTypes = ['date', 'datetime-local', 'month', 'time', 'week'];
-        const isLabelFloating = isFocused || hasValue || props.placeholder || forceFloatingTypes.includes(type);
+        const isLabelFloating = isFocused || hasValue || Boolean(props.placeholder) || forceFloatingTypes.includes(type);
 
         return (
             <div className="w-full">
                 <div className="relative w-full">
                     {prefix && (
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10 pointer-events-none">
                             {prefix}
                         </div>
                     )}
@@ -124,13 +125,15 @@ const Input = React.forwardRef(
                         {...props}
                     />
 
-                    {/* Floating Label — remonte via JS (hasValue/focus) ou CSS (:-webkit-autofill) */}
+                    {/* Floating Label — strictement mono-ligne pour éviter tout chevauchement avec le placeholder ou la saisie */}
                     <label
                         htmlFor={inputId}
+                        title={typeof label === 'string' ? label : undefined}
                         className={cn(
-                            "absolute left-3 transition-all duration-200 pointer-events-none text-muted-foreground",
+                            "absolute left-3 right-3 transition-all duration-200 pointer-events-none text-muted-foreground truncate select-none",
                             "peer-[-webkit-autofill]:top-2 peer-[-webkit-autofill]:text-xs peer-[-webkit-autofill]:font-medium",
                             prefix && "left-10",
+                            suffix && "right-10",
                             isLabelFloating
                                 ? "top-2 text-xs font-medium"
                                 : "top-1/2 -translate-y-1/2 text-sm"
