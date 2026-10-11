@@ -5,19 +5,26 @@ const ClientStatusBadge = ({ statut }) => {
     const { t } = useTranslation();
 
     const variants = {
-        actif: 'bg-green-100 text-green-800 border-green-200',
-        prospect: 'bg-blue-100 text-blue-800 border-blue-200',
-        inactif: 'bg-gray-100 text-gray-800 border-gray-200'
+        actif: 'bg-emerald-50 text-emerald-800 border-emerald-300',
+        prospect: 'bg-amber-50 text-amber-800 border-amber-300',
+        pause: 'bg-slate-100 text-slate-700 border-slate-300',
+        litige: 'bg-rose-50 text-rose-800 border-rose-300',
+        resilie: 'bg-zinc-100 text-zinc-700 border-zinc-300',
+        inactif: 'bg-slate-100 text-slate-600 border-slate-200'
     };
 
     const labels = {
-        actif: t('common.status.active', 'Active'),
+        actif: t('common.status.active', 'Actif'),
         prospect: t('common.status.prospect', 'Prospect'),
-        inactif: t('common.status.archived', 'Archived')
+        pause: t('common.status.paused', 'En pause'),
+        litige: t('common.status.dispute', 'Litige'),
+        resilie: t('common.status.terminated', 'Résilié'),
+        inactif: t('common.status.archived', 'Inactif')
     };
 
-    const variant = variants[statut] || variants.actif;
-    const label = labels[statut] || statut;
+    const normalizedStatut = (statut || 'actif').toLowerCase();
+    const variant = variants[normalizedStatut] || variants.actif;
+    const label = labels[normalizedStatut] || statut;
 
     return (
         <StatusBadge variant={variant}>
